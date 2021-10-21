@@ -246,9 +246,33 @@ bool XdaInterface::prepare()
 	if (!m_device->readEmtsAndDeviceConfiguration())
 		return handleError("Could not read device configuration");
 
-	
-	ROS_INFO("Measuring ...");
-	if (!m_device->gotoMeasurement())
+    XsOutputConfigurationArray configArray;
+
+    int value;
+    if(ros::param::get("~quaternion_freq", value)) {
+        configArray.push_back(XsOutputConfiguration(XDI_Quaternion, value));
+    }
+    if(ros::param::get("~magnetic_field_freq", value)) {
+        configArray.push_back(XsOutputConfiguration(XDI_MagneticField, value));
+    }
+    if(ros::param::get("~acceleration_freq", value)) {
+        configArray.push_back(XsOutputConfiguration(XDI_Acceleration, value));
+    }
+    if(ros::param::get("~rate_of_turn_freq", value)) {
+        configArray.push_back(XsOutputConfiguration(XDI_RateOfTurn, value));
+    }
+    if(ros::param::get("~euler_angles_freq", value)) {
+        configArray.push_back(XsOutputConfiguration(XDI_EulerAngles, value));
+    }
+
+    ROS_INFO("Configuring ...");
+    if(!m_device->setOutputConfiguration(configArray)) {
+        return handleError("Could not configure");
+    }
+
+
+    ROS_INFO("Measuring ...");
+    if (!m_device->gotoMeasurement())
 		return handleError("Could not put device into measurement mode");
 
 	std::string logFile;
