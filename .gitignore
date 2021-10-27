@@ -246,12 +246,13 @@ _deps
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
+!lib/xspublic/**/**/Makefile
+
 ### ROS ###
 devel/
 logs/
 build/
 bin/
-lib/
 msg_gen/
 srv_gen/
 msg/*Action.msg
