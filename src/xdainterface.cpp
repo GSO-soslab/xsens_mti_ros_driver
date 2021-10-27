@@ -248,22 +248,25 @@ bool XdaInterface::prepare()
 
     XsOutputConfigurationArray configArray;
 
+    m_device->deviceConfiguration();
+
+
     int value;
-    if(ros::param::get("~quaternion_freq", value)) {
-        configArray.push_back(XsOutputConfiguration(XDI_Quaternion, value));
-    }
-    if(ros::param::get("~magnetic_field_freq", value)) {
-        configArray.push_back(XsOutputConfiguration(XDI_MagneticField, value));
-    }
-    if(ros::param::get("~acceleration_freq", value)) {
-        configArray.push_back(XsOutputConfiguration(XDI_Acceleration, value));
-    }
-    if(ros::param::get("~rate_of_turn_freq", value)) {
-        configArray.push_back(XsOutputConfiguration(XDI_RateOfTurn, value));
-    }
-    if(ros::param::get("~euler_angles_freq", value)) {
-        configArray.push_back(XsOutputConfiguration(XDI_EulerAngles, value));
-    }
+
+    ros::param::param<int>("~quaternion_freq", value, 100);
+    configArray.push_back(XsOutputConfiguration(XDI_Quaternion, value));
+
+    ros::param::param<int>("~magnetic_field_freq", value, 20);
+    configArray.push_back(XsOutputConfiguration(XDI_MagneticField, value));
+
+    ros::param::param<int>("~acceleration_freq", value, 100);
+    configArray.push_back(XsOutputConfiguration(XDI_Acceleration, value));
+
+    ros::param::param<int>("~rate_o_turn_freq", value, 100);
+    configArray.push_back(XsOutputConfiguration(XDI_RateOfTurn, value));
+
+    ros::param::param<int>("~euler_angles_freq", value, 100);
+    configArray.push_back(XsOutputConfiguration(XDI_EulerAngles, value));
 
     ROS_INFO("Configuring ...");
     if(!m_device->setOutputConfiguration(configArray)) {
