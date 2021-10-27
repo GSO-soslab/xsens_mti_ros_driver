@@ -31,6 +31,13 @@ pub_twist: true
 pub_transform: true
 pub_positionLLA: true
 pub_velocity: true
+pub_euler: true
+
+quaternion_freq: 100
+magnetic_field_freq: 100
+acceleration_freq: 100
+rate_of_turn_freq: 100
+euler_angles_freq: 100
 
 
 ## Sensor standard deviation [x,y,z] (optional)

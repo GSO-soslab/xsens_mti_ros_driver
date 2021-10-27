@@ -53,7 +53,7 @@
 #include "messagepublishers/velocityincrementpublisher.h"
 #include "messagepublishers/positionllapublisher.h"
 #include "messagepublishers/velocitypublisher.h"
-
+#include "messagepublishers/eulerpublisher.h"
 
 
 XdaInterface::XdaInterface()
@@ -152,6 +152,10 @@ void XdaInterface::registerPublishers(ros::NodeHandle &node)
 	{
 		registerCallback(new VelocityPublisher(node));
 	}
+    if (ros::param::get("~pub_euler", should_publish) && should_publish)
+    {
+        registerCallback(new EulerPublisher(node));
+    }
 }
 
 bool XdaInterface::connectDevice()
@@ -262,7 +266,7 @@ bool XdaInterface::prepare()
     ros::param::param<int>("~acceleration_freq", value, 100);
     configArray.push_back(XsOutputConfiguration(XDI_Acceleration, value));
 
-    ros::param::param<int>("~rate_o_turn_freq", value, 100);
+    ros::param::param<int>("~rate_of_turn_freq", value, 100);
     configArray.push_back(XsOutputConfiguration(XDI_RateOfTurn, value));
 
     ros::param::param<int>("~euler_angles_freq", value, 100);
