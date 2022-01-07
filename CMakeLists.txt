@@ -52,6 +52,7 @@ include_directories(
 )
 
 link_directories(lib/xspublic/xscontroller lib/xspublic/xscommon lib/xspublic/xstypes)
+
 add_executable(
 	xsens_mti_node
 	src/main.cpp
@@ -70,6 +71,5 @@ target_link_libraries(
 
 
 add_custom_command(TARGET xsens_mti_node
-  PRE_BUILD COMMAND make -C ${CMAKE_CURRENT_SOURCE_DIR}/lib/xspublic
+  PRE_LINK COMMAND make -C ${CMAKE_CURRENT_SOURCE_DIR}/lib/xspublic
 )
-
