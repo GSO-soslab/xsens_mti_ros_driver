@@ -14,18 +14,21 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   sensor_msgs
-	genmsg
+  genmsg
+  message_generation
+  message_runtime
+
 )
 
 add_service_files(FILES
-	DataRecord.srv
-	SetLLA.srv
-	SendCalibration.srv
+    DataRecord.srv
+    SetLLA.srv
+    SendCalibration.srv
 )
 
 generate_messages(
-	DEPENDENCIES
-	std_msgs
+    DEPENDENCIES
+    std_msgs
 )
 
 ###################################
@@ -47,7 +50,9 @@ catkin_package(
   sensor_msgs
   std_msgs
   geometry_msgs
-	genmsg
+  genmsg
+  message_generation
+  message_runtime
 #  DEPENDS system_lib
 )
 
@@ -66,19 +71,19 @@ include_directories(
 link_directories(lib/xspublic/xscontroller lib/xspublic/xscommon lib/xspublic/xstypes)
 
 add_executable(
-	xsens_mti_node
-	src/main.cpp
-	src/xdainterface.cpp
-	src/xdacallback.cpp
+    xsens_mti_node
+    src/main.cpp
+    src/xdainterface.cpp
+    src/xdacallback.cpp
 )
 target_link_libraries(
-	xsens_mti_node
-	xscontroller
-	xscommon
-	xstypes
-	pthread
-	dl
-	${catkin_LIBRARIES}
+    xsens_mti_node
+    xscontroller
+    xscommon
+    xstypes
+    pthread
+    dl
+    ${catkin_LIBRARIES}
 )
 
 
