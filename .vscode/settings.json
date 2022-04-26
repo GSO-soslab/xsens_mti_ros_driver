@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.moos": "scala",
-        "*.bhv": "scala",
-        "string": "cpp"
-    }
-}
