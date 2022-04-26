@@ -32,13 +32,17 @@ pub_transform: true
 pub_positionLLA: true
 pub_velocity: true
 pub_euler: true
+pub_raw_mag: false
+pub_raw_gyro: false
+pub_raw_accel: false
 
 quaternion_freq: 100
 magnetic_field_freq: 100
 acceleration_freq: 100
 rate_of_turn_freq: 100
 euler_angles_freq: 100
-
+inrun_compass_calibration: true
+# raw_data_freq: 100
 
 ## Sensor standard deviation [x,y,z] (optional)
 ## This value is used to override the covariance matrix in sensor_msgs/Imu and

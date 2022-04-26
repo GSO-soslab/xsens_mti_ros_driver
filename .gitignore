@@ -2,7 +2,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,c++,cmake,clion,ros,ros2,vim,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,c++,cmake,clion,ros,ros2,vim,linux
 .cmake-build-debug/**/*
-
+.build
 .idea/**/*
 ### C++ ###
 # Prerequisites

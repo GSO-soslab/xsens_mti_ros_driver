@@ -30,40 +30,69 @@
 //  ARBITRATORS APPOINTED IN ACCORDANCE WITH SAID RULES.
 //
 
-#ifndef VELOCITYPUBLISHER_H
-#define VELOCITYPUBLISHER_H
+#ifndef RAWMAGNETICFIELDPUBLISHER_H
+#define RAWMAGNETICFIELDPUBLISHER_H
 
 #include "packetcallback.h"
-#include <geometry_msgs/Vector3Stamped.h>
+#include "sensor_msgs/MagneticField.h"
 
-struct VelocityPublisher : public PacketCallback
+struct RawMagneticFieldPublisher : public PacketCallback
 {
     ros::Publisher pub;
     std::string frame_id = DEFAULT_FRAME_ID;
 
+    double magnetic_field_variance[3];
 
-    VelocityPublisher(ros::NodeHandle &node)
+    static void variance_from_stddev_param(std::string param, double *variance_out)
+    {
+        std::vector<double> stddev;
+        if (ros::param::get(param, stddev))
+        {
+            if (stddev.size() == 3)
+            {
+                auto squared = [](double x) { return x * x; };
+                std::transform(stddev.begin(), stddev.end(), variance_out, squared);
+            }
+            else
+            {
+                ROS_WARN("Wrong size of param: %s, must be of size 3", param.c_str());
+            }
+        }
+        else
+        {
+            memset(variance_out, 0, 3 * sizeof(double));
+        }
+    }
+
+    RawMagneticFieldPublisher(ros::NodeHandle &node)
     {
         int pub_queue_size = 5;
         ros::param::get("~publisher_queue_size", pub_queue_size);
-        pub = node.advertise<geometry_msgs::Vector3Stamped>("filter/velocity", pub_queue_size);
+        pub = node.advertise<sensor_msgs::MagneticField>("imu/raw/mag", pub_queue_size);
+        variance_from_stddev_param("~magnetic_field_stddev", magnetic_field_variance);
         ros::param::get("~frame_id", frame_id);
     }
 
     void operator()(const XsDataPacket &packet, ros::Time timestamp)
     {
-        if (packet.containsVelocity())
+        if (packet.containsRawMagneticField())
         {
-            geometry_msgs::Vector3Stamped msg;
+            // TODO: Use sensor_msgs::MagneticField
+            // Problem: Sensor gives normalized magnetic field vector with unknown units
+            sensor_msgs::MagneticField msg;
 
             msg.header.stamp = timestamp;
             msg.header.frame_id = frame_id;
 
-            XsVector v = packet.velocity();
-            // publishing velocity as x,y z
-            msg.vector.x = v[0];
-            msg.vector.y = v[1];
-            msg.vector.z = v[2];
+            XsVector mag = packet.rawMagneticFieldConverted();
+
+            msg.magnetic_field.x = mag[0];
+            msg.magnetic_field.y = mag[1];
+            msg.magnetic_field.z = mag[2];
+
+            msg.magnetic_field_covariance[0] = magnetic_field_variance[0];
+            msg.magnetic_field_covariance[4] = magnetic_field_variance[1];
+            msg.magnetic_field_covariance[8] = magnetic_field_variance[2];
 
             pub.publish(msg);
         }
