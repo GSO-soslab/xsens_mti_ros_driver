@@ -75,6 +75,8 @@ private:
 
     ros::NodeHandle m_pnh;
 
+    ros::NodeHandle m_nh;
+
     XsControl *m_control;
     XsDevice *m_device;
     XsPortInfo m_port;

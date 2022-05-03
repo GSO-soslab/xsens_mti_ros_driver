@@ -66,7 +66,7 @@
 
 
 XdaInterface::XdaInterface()
-    : m_device(nullptr), m_pnh("~")
+    : m_device(nullptr), m_pnh("~"), m_nh()
 {
     ROS_INFO("Creating XsControl object...");
     m_control = XsControl::construct();
@@ -103,83 +103,83 @@ void XdaInterface::registerPublishers()
 
     if (m_pnh.getParam("pub_imu", should_publish) && should_publish)
     {
-        registerCallback(new ImuPublisher(m_pnh));
+        registerCallback(new ImuPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_quaternion", should_publish) && should_publish)
     {
-        registerCallback(new OrientationPublisher(m_pnh));
+        registerCallback(new OrientationPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_acceleration", should_publish) && should_publish)
     {
-        registerCallback(new AccelerationPublisher(m_pnh));
+        registerCallback(new AccelerationPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_angular_velocity", should_publish) && should_publish)
     {
-        registerCallback(new AngularVelocityPublisher(m_pnh));
+        registerCallback(new AngularVelocityPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_mag", should_publish) && should_publish)
     {
-        registerCallback(new MagneticFieldPublisher(m_pnh));
+        registerCallback(new MagneticFieldPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_dq", should_publish) && should_publish)
     {
-        registerCallback(new OrientationIncrementsPublisher(m_pnh));
+        registerCallback(new OrientationIncrementsPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_dv", should_publish) && should_publish)
     {
-        registerCallback(new VelocityIncrementPublisher(m_pnh));
+        registerCallback(new VelocityIncrementPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_sampletime", should_publish) && should_publish)
     {
-        registerCallback(new TimeReferencePublisher(m_pnh));
+        registerCallback(new TimeReferencePublisher(m_nh));
     }
     if (m_pnh.getParam("pub_temperature", should_publish) && should_publish)
     {
-        registerCallback(new TemperaturePublisher(m_pnh));
+        registerCallback(new TemperaturePublisher(m_nh));
     }
     if (m_pnh.getParam("pub_pressure", should_publish) && should_publish)
     {
-        registerCallback(new PressurePublisher(m_pnh));
+        registerCallback(new PressurePublisher(m_nh));
     }
     if (m_pnh.getParam("pub_gnss", should_publish) && should_publish)
     {
-        registerCallback(new GnssPublisher(m_pnh));
+        registerCallback(new GnssPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_twist", should_publish) && should_publish)
     {
-        registerCallback(new TwistPublisher(m_pnh));
+        registerCallback(new TwistPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_free_acceleration", should_publish) && should_publish)
     {
-        registerCallback(new FreeAccelerationPublisher(m_pnh));
+        registerCallback(new FreeAccelerationPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_transform", should_publish) && should_publish)
     {
-        registerCallback(new TransformPublisher(m_pnh));
+        registerCallback(new TransformPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_positionLLA", should_publish) && should_publish)
     {
-        registerCallback(new PositionLLAPublisher(m_pnh));
+        registerCallback(new PositionLLAPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_velocity", should_publish) && should_publish)
     {
-        registerCallback(new VelocityPublisher(m_pnh));
+        registerCallback(new VelocityPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_euler", should_publish) && should_publish)
     {
-        registerCallback(new EulerPublisher(m_pnh));
+        registerCallback(new EulerPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_raw_mag", should_publish) && should_publish)
     {
-        registerCallback(new RawMagneticFieldPublisher(m_pnh));
+        registerCallback(new RawMagneticFieldPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_raw_accel", should_publish) && should_publish)
     {
-        registerCallback(new RawAccelerationPublisher(m_pnh));
+        registerCallback(new RawAccelerationPublisher(m_nh));
     }
     if (m_pnh.getParam("pub_raw_gyro", should_publish) && should_publish)
     {
-        registerCallback(new RawAngularVelocityPublisher(m_pnh));
+        registerCallback(new RawAngularVelocityPublisher(m_nh));
     }
 }
 
