@@ -187,6 +187,9 @@ void XdaInterface::registerSubscribers(){
     //Initialise GPS_Fix(NavSatFix) Subscriber
     std::string fix_topic_name; 
     ros::param::get("/xsens_mti_node/fix_topic_name", fix_topic_name);
+
+    ros::param::get("/xsens_mti_node/use_fix_topic_to_set_lla", use_fix_topic_to_set_lla);
+
     m_gps_fix_sub = m_nh.subscribe(fix_topic_name, 1,
                                     &XdaInterface::gps_callback, this);
 }
@@ -200,9 +203,12 @@ void XdaInterface::gps_callback(const sensor_msgs::NavSatFix& msg){
     req.longitude = msg.longitude;
     req.altitude = msg.altitude;
 
-    // std::cout<<req<<std::endl;
-    XdaInterface::setLlaCallback(req,res);
+    if (use_fix_topic_to_set_lla){
+        // std::cout<<req<<std::endl;
+        XdaInterface::setLlaCallback(req,res);
+    }
 }
+
 void XdaInterface::registerServices() {
 
     m_data_record_server = m_pnh.advertiseService(
