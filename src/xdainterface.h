@@ -93,7 +93,7 @@ private:
     
     ros::Subscriber m_gps_fix_sub;
 
-    bool use_fix_topic_to_set_lla;
+    bool set_lla_with_gps_fix;
 
     bool setLlaCallback(xsens_mti_driver::SetLLA::Request& req,
                         xsens_mti_driver::SetLLA::Response& resp);

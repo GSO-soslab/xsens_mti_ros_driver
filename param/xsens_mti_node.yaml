@@ -10,8 +10,8 @@
 # log_file: log.mtb
 
 publisher_queue_size: 5
-fix_topic_name: "/alpha_rise/gps/fix"
-use_fix_topic_to_set_lla: true
+gps_fix_topic: "/alpha_rise/gps/fix"
+set_lla_with_gps_fix: true
 # TF transform frame_id (default: imu_link), you may want to change it if you use multiple devices
 #frame_id: "imu_link"
 

@@ -186,12 +186,13 @@ void XdaInterface::registerPublishers()
 void XdaInterface::registerSubscribers(){
     //Initialise GPS_Fix(NavSatFix) Subscriber
     std::string fix_topic_name; 
-    ros::param::get("/xsens_mti_node/fix_topic_name", fix_topic_name);
-
-    ros::param::get("/xsens_mti_node/use_fix_topic_to_set_lla", use_fix_topic_to_set_lla);
+    m_pnh.getParam("gps_fix_topic",fix_topic_name);
 
     m_gps_fix_sub = m_nh.subscribe(fix_topic_name, 1,
                                     &XdaInterface::gps_callback, this);
+
+    // Get param to whether or not call the srv with topic.
+    m_pnh.getParam("set_lla_with_gps_fix", set_lla_with_gps_fix);
 }
 
 void XdaInterface::gps_callback(const sensor_msgs::NavSatFix& msg){
@@ -203,7 +204,7 @@ void XdaInterface::gps_callback(const sensor_msgs::NavSatFix& msg){
     req.longitude = msg.longitude;
     req.altitude = msg.altitude;
 
-    if (use_fix_topic_to_set_lla){
+    if (set_lla_with_gps_fix){
         // std::cout<<req<<std::endl;
         XdaInterface::setLlaCallback(req,res);
     }
