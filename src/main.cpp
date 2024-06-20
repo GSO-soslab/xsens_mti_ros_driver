@@ -32,7 +32,6 @@
 
 #include <ros/ros.h>
 #include "xdainterface.h"
-
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -49,6 +48,8 @@ int main(int argc, char *argv[])
 	XdaInterface *xdaInterface = new XdaInterface();
 
 	xdaInterface->registerPublishers();
+
+	xdaInterface->registerSubscribers();
 
     xdaInterface->registerServices();
 

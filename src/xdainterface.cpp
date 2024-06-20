@@ -183,6 +183,33 @@ void XdaInterface::registerPublishers()
     }
 }
 
+void XdaInterface::registerSubscribers(){
+    //Initialise GPS_Fix(NavSatFix) Subscriber
+    std::string fix_topic_name; 
+    m_pnh.getParam("gps_fix_topic",fix_topic_name);
+
+    m_gps_fix_sub = m_nh.subscribe(fix_topic_name, 1,
+                                    &XdaInterface::gps_callback, this);
+
+    // Get param to whether or not call the srv with topic.
+    m_pnh.getParam("set_lla_with_gps_fix", set_lla_with_gps_fix);
+}
+
+void XdaInterface::gps_callback(const sensor_msgs::NavSatFix& msg){
+    //NavSatfix callback that calls the setlla service.
+    xsens_mti_driver::SetLLA::Request req;
+    xsens_mti_driver::SetLLA::Response res;
+    
+    req.latitude = msg.latitude;
+    req.longitude = msg.longitude;
+    req.altitude = msg.altitude;
+
+    if (set_lla_with_gps_fix){
+        // std::cout<<req<<std::endl;
+        XdaInterface::setLlaCallback(req,res);
+    }
+}
+
 void XdaInterface::registerServices() {
 
     m_data_record_server = m_pnh.advertiseService(

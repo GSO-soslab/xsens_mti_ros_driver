@@ -10,7 +10,8 @@
 # log_file: log.mtb
 
 publisher_queue_size: 5
-
+gps_fix_topic: "/alpha_rise/gps/fix"
+set_lla_with_gps_fix: true
 # TF transform frame_id (default: imu_link), you may want to change it if you use multiple devices
 #frame_id: "imu_link"
 
@@ -21,15 +22,15 @@ pub_mag: true
 pub_angular_velocity: true
 pub_acceleration: true
 pub_free_acceleration: true
-pub_dq: true
-pub_dv: true
-pub_sampletime: true
-pub_temperature: true
-pub_pressure: true
-pub_gnss: true
-pub_twist: true
+pub_dq: false
+pub_dv: false
+pub_sampletime: false
+pub_temperature: false
+pub_pressure: false
+pub_gnss: false
+pub_twist: false
 pub_transform: true
-pub_positionLLA: true
+pub_positionLLA: false
 pub_velocity: true
 pub_euler: true
 pub_raw_mag: false

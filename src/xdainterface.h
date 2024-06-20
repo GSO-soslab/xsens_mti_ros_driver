@@ -61,7 +61,7 @@ public:
 
     void spinFor(std::chrono::milliseconds timeout);
     void registerPublishers();
-
+    void registerSubscribers();
     void registerServices();
 
     bool connectDevice();
@@ -90,6 +90,10 @@ private:
     ros::ServiceServer m_stop_recording_server;
 
     ros::ServiceServer m_calibrate_server;
+    
+    ros::Subscriber m_gps_fix_sub;
+
+    bool set_lla_with_gps_fix;
 
     bool setLlaCallback(xsens_mti_driver::SetLLA::Request& req,
                         xsens_mti_driver::SetLLA::Response& resp);
@@ -103,6 +107,7 @@ private:
     bool sendRawCallback(xsens_mti_driver::SendCalibration::Request& req,
                          xsens_mti_driver::SendCalibration::Response& resp);
 
+    void gps_callback(const sensor_msgs::NavSatFix &msg);
 };
 
 #endif
